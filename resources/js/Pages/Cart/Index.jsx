@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import AppLayout from '@/Layouts/AppLayout';
-import { router } from '@inertiajs/react';
+import {Head, router} from '@inertiajs/react';
 
 export default function Cart({ cart }) {
     const [quantities, setQuantities] = useState(
@@ -23,9 +23,9 @@ export default function Cart({ cart }) {
     };
 
     const completeOrder = () => {
-        const orderPayload = Object.keys(quantities).map(itemId => ({
-            id: itemId,
-            quantity: parseInt(quantities[itemId], 10), // use itemId, not item.id
+        const orderPayload = Object.keys(quantities).map(cartItemId => ({
+            cart_item_id: cartItemId,
+            quantity: parseInt(quantities[cartItemId], 10),
         }));
 
         router.post(route('order.complete'), { items: orderPayload });
@@ -33,6 +33,7 @@ export default function Cart({ cart }) {
 
     return (
         <AppLayout>
+            <Head title="Cart" />
             <div className="max-w-4xl mx-auto py-10">
                 <h1 className="text-2xl font-bold mb-6">Your Cart</h1>
 

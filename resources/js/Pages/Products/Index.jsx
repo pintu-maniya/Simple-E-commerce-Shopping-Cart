@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
 
 export default function Index({ auth, products }) {
+
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Products" />
@@ -11,17 +12,28 @@ export default function Index({ auth, products }) {
                     <div key={product.id} className="border rounded p-4 shadow">
                         <h2 className="font-bold text-lg">{product.name}</h2>
                         <p className="text-gray-600">₹ {product.price}</p>
-                        <p className="text-sm">Available Qty: {product.stock_quantity}</p>
+                        <p className="text-sm">
+                            Available Qty: {product.stock_quantity}
+                        </p>
 
                         <button
+                            disabled={product.stock_quantity <= 0}
                             onClick={() =>
                                 router.post(route('cart.add'), {
                                     product_id: product.id,
+                                }, {
+                                    preserveScroll: true
                                 })
                             }
-                            className="mt-3 bg-indigo-600 text-white px-4 py-2 rounded"
+                            className={`mt-3 px-4 py-2 rounded text-white
+                                ${product.stock_quantity <= 0
+                                ? 'bg-gray-400 cursor-not-allowed'
+                                : 'bg-indigo-600 hover:bg-indigo-700'
+                            }`}
                         >
-                            Add to Cart
+                            {product.stock_quantity <= 0
+                                ? 'Out of Stock'
+                                : 'Add to Cart'}
                         </button>
                     </div>
                 ))}

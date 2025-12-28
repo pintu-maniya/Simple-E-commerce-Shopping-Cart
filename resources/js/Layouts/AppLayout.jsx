@@ -1,10 +1,15 @@
 import { usePage, router } from '@inertiajs/react';
+import Toast from '@/Components/Toast';
 
 export default function AppLayout({ children }) {
     const { auth, cartProductCount } = usePage().props;
+    const { flash } = usePage().props;
 
     return (
         <>
+            <Toast message={flash?.success} type="success" />
+            <Toast message={flash?.error} type="error" />
+
             <header className="bg-white shadow">
                 <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
 

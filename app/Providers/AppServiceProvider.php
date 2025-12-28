@@ -30,6 +30,12 @@ class AppServiceProvider extends ServiceProvider
             'cartProductCount' => fn () => Auth::check()
                 ? CartItem::where('user_id', Auth::id())->count()
                 : 0,
+            'flash' => function (Request $request) {
+                return [
+                    'success' => $request->session()->get('success'),
+                    'error'   => $request->session()->get('error'),
+                ];
+            },
         ]);
     }
 }

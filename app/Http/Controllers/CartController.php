@@ -32,7 +32,7 @@ class CartController extends Controller
         $product = Product::findOrFail($request->product_id);
 
         if ($product->stock_quantity <= 0) {
-            return back()->withErrors(['stock' => 'Out of stock']);
+            return redirect()->back()->with('error', 'Out of stock.');
         }
 
         $item = CartItem::where('user_id', auth()->id())
@@ -51,7 +51,7 @@ class CartController extends Controller
 
         $product->decrement('stock_quantity');
 
-        return back();
+        return back()->with('success', 'Product added to cart.');
     }
 
     public function update(Request $request, CartItem $item)
@@ -111,7 +111,7 @@ class CartController extends Controller
             }
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Cart successfully updated.');
     }
 
 }

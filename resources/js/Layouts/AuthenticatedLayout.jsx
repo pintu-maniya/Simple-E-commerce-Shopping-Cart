@@ -120,20 +120,6 @@ export default function Authenticated({ user, header, children }) {
             )}
 
             <main>{children}</main>
-            <NavLink
-                href={route('products.index')}
-                active={route().current('products.index')}
-            >
-                Products
-            </NavLink>
-
-            <NavLink
-                href={route('cart.index')}
-                active={route().current('cart.index')}
-            >
-                Cart
-            </NavLink>
-
         </div>
     );
 }
